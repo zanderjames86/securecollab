@@ -1,0 +1,10 @@
+{
+  "name": "SecureCollab",
+  "short_name": "SecureCollab",
+  "description": "Private, end-to-end encrypted document collaboration.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f6f3ec",
+  "theme_color": "#14213d",
+  "icons": [{ "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}

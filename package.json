@@ -1,0 +1,29 @@
+{
+  "name": "securecollab",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Zero-knowledge, owner-controlled document collaboration for small teams.",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "build": "npm run build -w @securecollab/web",
+    "dev:web": "npm run dev -w @securecollab/web",
+    "dev:sync": "npm run dev -w @securecollab/sync",
+    "test": "npm run test --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "deploy": "npm run build && npm run deploy -w @securecollab/sync"
+  },
+  "devDependencies": {
+    "typescript": "~5.9.3",
+    "vitest": "^4.0.5"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true,
+    "workerd@1.20261019.1": true
+  }
+}

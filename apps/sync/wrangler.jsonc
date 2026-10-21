@@ -1,0 +1,23 @@
+{
+  // One Cloudflare Worker serves the web app (static files) and the
+  // zero-knowledge sync API. Everything runs on the Workers free plan.
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "securecollab",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "../web/dist",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/api/*"]
+  },
+  "durable_objects": {
+    "bindings": [
+      { "name": "ROOMS", "class_name": "Room" },
+      { "name": "INVITES", "class_name": "InviteStore" }
+    ]
+  },
+  "migrations": [
+    { "tag": "v1", "new_sqlite_classes": ["Room", "InviteStore"] }
+  ],
+  "observability": { "enabled": false }
+}

@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Unit tests
+        run: npm test
+      - name: Build web app
+        run: npm run build
+      - name: Live sync test against a local server
+        run: |
+          (cd apps/sync && CI=1 npx wrangler dev --port 8787 > ../../wrangler.log 2>&1 &)
+          for i in $(seq 1 60); do curl -sf localhost:8787/api/health && break; sleep 1; done
+          SC_LIVE_URL=http://localhost:8787 npx vitest run --root apps/web live
+      - name: Server log on failure
+        if: failure()
+        run: cat wrangler.log || true
